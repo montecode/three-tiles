@@ -7,15 +7,20 @@ import com.badlogic.gdx.Screen;
  */
 public class MainGameScreen implements Screen {
    ThreeTilesGame game;
-
+   TileWorld world;
+   TileRenderer renderer;
 
     public MainGameScreen(ThreeTilesGame game) {
         this.game = game;
+        world = new TileWorld();
+        renderer = new TileRenderer(world);
+
     }
 
     @Override
     public void render(float delta) {
-
+        world.update(delta);
+        renderer.render(delta);
     }
 
     @Override
