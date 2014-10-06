@@ -11,6 +11,11 @@ public class MainGameScreen implements Screen {
    TileRenderer renderer;
 
     public MainGameScreen(ThreeTilesGame game) {
+
+
+//        float gameWidth = 480;
+//        float gameHeight = screenHeight / (screenWidth/gameWidth);
+
         this.game = game;
         world = new TileWorld();
         renderer = new TileRenderer(world);

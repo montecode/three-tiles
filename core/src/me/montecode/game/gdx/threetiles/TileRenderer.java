@@ -18,7 +18,7 @@ public class TileRenderer {
     public TileRenderer(TileWorld world) {
         this.world = world;
 
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(480,800);
         camera.setToOrtho(true);
 
         batcher = new SpriteBatch();
@@ -32,10 +32,10 @@ public class TileRenderer {
     public void render(float delta) {
 
          /*
-         * 1. We draw a black background. This prevents flickering.
+         * 1. We draw background. This prevents flickering.
          */
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(243, 236, 205, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /*
@@ -68,9 +68,7 @@ public class TileRenderer {
         // We MUST do this every time.
         shapeRenderer.end();
 
-        /*
-         * 3. We draw the rectangle's outline
-         */
+
 
         // Tells shapeRenderer to draw an outline of the following shapes
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
