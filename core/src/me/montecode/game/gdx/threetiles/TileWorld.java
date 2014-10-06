@@ -17,6 +17,7 @@ public class TileWorld {
     private Rectangle tilePurple = new Rectangle(425, 200, 50, 300);
     private Rectangle tileBlue = new Rectangle(130, 15, 300, 50);
     private Rectangle tileRed = new Rectangle(15, 200, 50, 300);
+    float runTime;
 
     //TODO set game dimensions according to display
 
@@ -48,6 +49,21 @@ public class TileWorld {
 
 
     public void update(float delta) {
+//        Gdx.app.log("DELTA WORLD ", String.valueOf(delta));
+        runTime += delta;
+
+        if (runTime > 1) {
+            runTime = 0;
+            tilePurple.width /= 1.25;
+            tileRed.width /= 1.25;
+            tileBlue.width /= 1.25;
+
+            tilePurple.height /= 1.25;
+            tileRed.height /= 1.25;
+            tileBlue.height /= 1.25;
+        }
+
+
 //        tilePurple.x++;
 //        if (tilePurple.x > 799) {
 //            tilePurple.x = 0;
