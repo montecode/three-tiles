@@ -1,5 +1,6 @@
 package me.montecode.game.gdx.threetiles;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 /**
@@ -10,6 +11,8 @@ public class MainGameScreen implements Screen {
    TileWorld world;
    TileRenderer renderer;
 
+
+
     public MainGameScreen(ThreeTilesGame game) {
 
 
@@ -19,6 +22,7 @@ public class MainGameScreen implements Screen {
         this.game = game;
         world = new TileWorld();
         renderer = new TileRenderer(world);
+        Gdx.input.setInputProcessor(new InputHandler(world));
 
     }
 

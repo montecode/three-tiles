@@ -17,9 +17,17 @@ public class TileWorld {
     private Rectangle tilePurple = new Rectangle(425, 200, 50, 300);
     private Rectangle tileBlue = new Rectangle(130, 15, 300, 50);
     private Rectangle tileRed = new Rectangle(15, 200, 50, 300);
-    float runTime;
 
-    //TODO set game dimensions according to display
+    private GameState currentState;
+
+    float runTime;
+    float passedSeconds = 0;
+
+
+
+    public enum GameState {
+        READY, RUNNING, GAMEOVER
+    }
 
     public TileWorld() {
         float screenWidth = Gdx.graphics.getWidth();
@@ -44,26 +52,57 @@ public class TileWorld {
         tileBlue.height = 50 * heightScaleFactor;
         tilePurple.height = 300 * heightScaleFactor;
 
+        Gdx.app.log("STATE", "constructor method state READY");
+
         Gdx.app.log("SCREEN DIMENSIONS", String.valueOf(screenWidth) + " " + String.valueOf(screenHeight));
+
+        currentState = GameState.READY;
+
     }
-
-
     public void update(float delta) {
-//        Gdx.app.log("DELTA WORLD ", String.valueOf(delta));
-        runTime += delta;
 
-        if (runTime > 1) {
-            runTime = 0;
-            tilePurple.width /= 1.25;
-            tileRed.width /= 1.25;
-            tileBlue.width /= 1.25;
+        switch (currentState) {
+            case READY:
+                updateReady(delta);
+                break;
 
-            tilePurple.height /= 1.25;
-            tileRed.height /= 1.25;
-            tileBlue.height /= 1.25;
+            case RUNNING:
+                updateRunning(delta);
+                break;
+            default:
+                break;
         }
 
+    }
 
+    private void updateReady(float delta) {
+
+
+    }
+
+    public void updateRunning(float delta) {
+//        Gdx.app.log("DELTA WORLD ", String.valueOf(delta));
+        Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE RUNNING");
+
+        runTime += delta;
+
+        if (runTime > 0.02) {
+            passedSeconds+=runTime;
+            runTime = 0;
+            tilePurple.width /= 1.00825;
+            tileRed.width /= 1.00825;
+            tileBlue.width /= 1.00825;
+
+            tilePurple.height /= 1.00825;
+            tileRed.height /= 1.00825;
+            tileBlue.height /= 1.00825;
+        }
+
+        if(passedSeconds>5){
+            Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
+
+            currentState = GameState.GAMEOVER;
+        }
 //        tilePurple.x++;
 //        if (tilePurple.x > 799) {
 //            tilePurple.x = 0;
@@ -78,6 +117,37 @@ public class TileWorld {
 
     }
 
+    public void restart() {
+        Gdx.app.log("STATE", "restarting method state RUNNING");
+
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float widthScaleFactor = screenWidth / 480;
+        float heightScaleFactor = screenHeight / 800;
+
+        tilePurple.x = 415 * widthScaleFactor;
+        tileRed.x = 15 * widthScaleFactor;
+        tileBlue.x = 90 * widthScaleFactor;
+
+        tilePurple.y = 200 * heightScaleFactor;
+        tileRed.y = 200 * heightScaleFactor;
+        tileBlue.y = 15 * heightScaleFactor;
+
+        tileRed.width = 50 * widthScaleFactor;
+        tilePurple.width = 50 * widthScaleFactor;
+        tileBlue.width = 300 * widthScaleFactor;
+
+        tileRed.height = 300 * heightScaleFactor;
+        tileBlue.height = 50 * heightScaleFactor;
+        tilePurple.height = 300 * heightScaleFactor;
+
+        passedSeconds=0;
+        runTime=0;
+
+        currentState = GameState.RUNNING;
+    }
+
+
     public Rectangle getPurpleTile() {
         return tilePurple;
     }
@@ -89,6 +159,15 @@ public class TileWorld {
     public Rectangle getBlueTile() {
         return tileBlue;
     }
+    public boolean isReady() {
+        return currentState == GameState.READY;
+    }
+    public boolean isGameOver() {
+        return currentState == GameState.GAMEOVER;
+    }
 
+    public void start() {
+        currentState = GameState.RUNNING;
+    }
 
 }
