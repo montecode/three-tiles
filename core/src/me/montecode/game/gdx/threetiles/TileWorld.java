@@ -54,12 +54,12 @@ public class TileWorld {
         tileRed.y = 200 * heightScaleFactor;
         tileBlue.y = 15 * heightScaleFactor;
 
-        tileRed.width = 50 * widthScaleFactor;
-        tilePurple.width = 50 * widthScaleFactor;
+        tileRed.width = 60 * widthScaleFactor;
+        tilePurple.width = 60 * widthScaleFactor;
         tileBlue.width = 300 * widthScaleFactor;
 
         tileRed.height = 300 * heightScaleFactor;
-        tileBlue.height = 50 * heightScaleFactor;
+        tileBlue.height = 60 * heightScaleFactor;
         tilePurple.height = 300 * heightScaleFactor;
 
         for (int i = 0; i < 5; i++) {
@@ -72,6 +72,7 @@ public class TileWorld {
 
         currentState = GameState.READY;
 
+        //TODO CREATE ASSET LOADER FOR FONTS AND SHOW WELCOME MESSAGE WITH HINTS
     }
 
     public void update(float delta) {
@@ -163,12 +164,12 @@ public class TileWorld {
         tileRed.y = 200 * heightScaleFactor;
         tileBlue.y = 15 * heightScaleFactor;
 
-        tileRed.width = 50 * widthScaleFactor;
-        tilePurple.width = 50 * widthScaleFactor;
+        tileRed.width = 60 * widthScaleFactor;
+        tilePurple.width = 60 * widthScaleFactor;
         tileBlue.width = 300 * widthScaleFactor;
 
         tileRed.height = 300 * heightScaleFactor;
-        tileBlue.height = 50 * heightScaleFactor;
+        tileBlue.height = 60 * heightScaleFactor;
         tilePurple.height = 300 * heightScaleFactor;
 
         passedSeconds = 0;
@@ -183,7 +184,7 @@ public class TileWorld {
         }
 
         for (int i = 0; i < 5; i++) {
-            tileQueue.add(new Tile(200*widthScaleFactor,(250*heightScaleFactor)+i*80*heightScaleFactor,80*widthScaleFactor,80*heightScaleFactor));
+            tileQueue.add(new Tile(200*widthScaleFactor,(400*heightScaleFactor)+i*80*heightScaleFactor,80*widthScaleFactor,80*heightScaleFactor));
         }
 
         currentState = GameState.RUNNING;
