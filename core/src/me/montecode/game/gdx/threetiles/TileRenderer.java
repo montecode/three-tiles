@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.Queue;
+
 /**
  * Created by stevyhacker on 5.10.14..
  */
@@ -39,7 +41,7 @@ public class TileRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /*
-         * 2. We draw the Filled rectangle
+         * 2. We draw the Filled tile
          */
 
         // Tells shapeRenderer to begin drawing filled shapes
@@ -64,8 +66,28 @@ public class TileRenderer {
                 world.getBlueTile().width, world.getBlueTile().height);
 
 
-        // Tells the shapeRenderer to finish rendering
-        // We MUST do this every time.
+        Queue<Tile> tileQueue = world.getTileQueue();
+
+        for (Tile tile : tileQueue){
+            switch (tile.color){
+                case 1:
+                    shapeRenderer.setColor(43 / 255.0f, 19 / 255.0f, 55 / 255.0f, 1);
+                    shapeRenderer.rect(tile.x, tile.y,
+                            tile.width, tile.height);
+                    break;
+                case 2:
+                    shapeRenderer.setColor(236 / 255.0f, 14 / 255.0f, 93 / 255.0f, 1);
+                    shapeRenderer.rect(tile.x, tile.y,
+                            tile.width, tile.height);
+                    break;
+                default:
+                    shapeRenderer.setColor(29 / 255.0f, 192 / 255.0f, 206 / 255.0f, 1);
+                    shapeRenderer.rect(tile.x, tile.y,
+                            tile.width, tile.height);
+                    break;
+            }
+        }
+
         shapeRenderer.end();
 
 
@@ -76,7 +98,7 @@ public class TileRenderer {
 //        // Chooses RGB Color of 255, 109, 120 at full opacity
 //        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
 //
-//        // Draws the rectangle from world (Using ShapeType.Line)
+//        // Draws the tile from world (Using ShapeType.Line)
 //        shapeRenderer.rect(world.getPurpleTile().x, world.getPurpleTile().y,
 //                world.getPurpleTile().width, world.getPurpleTile().height);
 //

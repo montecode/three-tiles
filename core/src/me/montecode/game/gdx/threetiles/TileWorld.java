@@ -1,7 +1,9 @@
 package me.montecode.game.gdx.threetiles;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by stevyhacker on 5.10.14..
@@ -9,15 +11,19 @@ import com.badlogic.gdx.math.Rectangle;
 public class TileWorld {
 
     // 800 x 600
-//    private Rectangle tilePurple = new Rectangle(735, 200, 40, 235);
-//    private Rectangle tileBlue = new Rectangle(300, 25, 235, 40);
-//    private Rectangle tileRed = new Rectangle(25,200, 40, 235);
+//    private Tile tilePurple = new Tile(735, 200, 40, 235);
+//    private Tile tileBlue = new Tile(300, 25, 235, 40);
+//    private Tile tileRed = new Tile(25,200, 40, 235);
 
     // 480 x 800
-    private Rectangle tilePurple = new Rectangle(425, 200, 50, 300);
-    private Rectangle tileBlue = new Rectangle(130, 15, 300, 50);
-    private Rectangle tileRed = new Rectangle(15, 200, 50, 300);
+    private Tile tilePurple = new Tile(425, 200, 50, 300);
+    private Tile tileBlue = new Tile(130, 15, 300, 50);
+    private Tile tileRed = new Tile(15, 200, 50, 300);
 
+    private Tile tile = new Tile(15, 200, 50, 300);
+
+
+    Queue<Tile> tileQueue = new LinkedList<Tile>();
 
     float screenWidth = Gdx.graphics.getWidth();
     float screenHeight = Gdx.graphics.getHeight();
@@ -55,6 +61,10 @@ public class TileWorld {
         tileRed.height = 300 * heightScaleFactor;
         tileBlue.height = 50 * heightScaleFactor;
         tilePurple.height = 300 * heightScaleFactor;
+
+        for (int i = 0; i < 5; i++) {
+            tileQueue.add(new Tile(200*widthScaleFactor,(400*heightScaleFactor)+i*80*heightScaleFactor,80*widthScaleFactor,80*heightScaleFactor));
+        }
 
         Gdx.app.log("STATE", "constructor method state READY");
 
@@ -95,8 +105,8 @@ public class TileWorld {
         if (runTime > 0.02) {
             passedSeconds += runTime;
             runTime = 0;
-            centerTilePurpleWidth += tilePurple.width - tilePurple.width /1.00825; // % 1.00825f;
-            centerTileBlueWidth +=( tileBlue.width - tileBlue.width / 1.00825)/2;//% 1.00825f;
+            centerTilePurpleWidth += tilePurple.width - tilePurple.width / 1.00825; // % 1.00825f;
+            centerTileBlueWidth += (tileBlue.width - tileBlue.width / 1.00825) / 2;//% 1.00825f;
             tilePurple.width /= 1.00825;
             tileRed.width /= 1.00825;
             tileBlue.width /= 1.00825;
@@ -168,19 +178,27 @@ public class TileWorld {
         centerTilePurpleWidth = 0;
         centerTileBlueWidth = 0;
 
+        while (!tileQueue.isEmpty()) {
+            tileQueue.remove();
+        }
+
+        for (int i = 0; i < 5; i++) {
+            tileQueue.add(new Tile(200*widthScaleFactor,(250*heightScaleFactor)+i*80*heightScaleFactor,80*widthScaleFactor,80*heightScaleFactor));
+        }
+
         currentState = GameState.RUNNING;
     }
 
 
-    public Rectangle getPurpleTile() {
+    public Tile getPurpleTile() {
         return tilePurple;
     }
 
-    public Rectangle getRedTile() {
+    public Tile getRedTile() {
         return tileRed;
     }
 
-    public Rectangle getBlueTile() {
+    public Tile getBlueTile() {
         return tileBlue;
     }
 
@@ -196,4 +214,7 @@ public class TileWorld {
         currentState = GameState.RUNNING;
     }
 
+    public Queue<Tile> getTileQueue() {
+        return tileQueue;
+    }
 }
