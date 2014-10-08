@@ -39,6 +39,7 @@ public class TileWorld {
     float runTime;
     float passedSeconds = 0;
 
+
     public enum GameState {
         READY, RUNNING, GAMEOVER
     }
@@ -147,6 +148,46 @@ public class TileWorld {
 //        }
 
     }
+
+    public void swipePurple() {
+       Tile swipedTile = tileQueue.poll();
+        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
+        if(swipedTile.color == 1){
+            //TODO ENLARGE THE TILE
+        }
+
+        else {
+            //TODO SHRINK THE TILE
+        }
+
+    }
+
+    public void swipeRed() {
+        Tile swipedTile = tileQueue.poll();
+        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
+
+        if(swipedTile.color == 2){
+            //TODO ENLARGE THE TILE
+        }
+
+        else {
+            //TODO SHRINK THE TILE
+        }
+    }
+
+    public void swipeBlue() {
+        Tile swipedTile = tileQueue.poll();
+        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
+
+        if(swipedTile.color == 3){
+            //TODO ENLARGE THE TILE
+        }
+
+        else {
+            //TODO SHRINK THE TILE
+        }
+    }
+
 
     public void restart() {
         Gdx.app.log("STATE", "restarting method state RUNNING");

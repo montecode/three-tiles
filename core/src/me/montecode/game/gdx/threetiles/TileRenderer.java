@@ -70,17 +70,17 @@ public class TileRenderer {
 
         for (Tile tile : tileQueue){
             switch (tile.color){
-                case 1:
+                case 1: //PURPLE
                     shapeRenderer.setColor(43 / 255.0f, 19 / 255.0f, 55 / 255.0f, 1);
                     shapeRenderer.rect(tile.x, tile.y,
                             tile.width, tile.height);
                     break;
-                case 2:
+                case 2: //RED
                     shapeRenderer.setColor(236 / 255.0f, 14 / 255.0f, 93 / 255.0f, 1);
                     shapeRenderer.rect(tile.x, tile.y,
                             tile.width, tile.height);
                     break;
-                default:
+                default:  //BLUE
                     shapeRenderer.setColor(29 / 255.0f, 192 / 255.0f, 206 / 255.0f, 1);
                     shapeRenderer.rect(tile.x, tile.y,
                             tile.width, tile.height);
@@ -89,8 +89,6 @@ public class TileRenderer {
         }
 
         shapeRenderer.end();
-
-
 
         // Tells shapeRenderer to draw an outline of the following shapes
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

@@ -40,7 +40,7 @@ public class InputHandler implements InputProcessor, GestureDetector.GestureList
             world.start();
         }
 
-        if (world.isGameOver()){
+        if (world.isGameOver()) {
             Gdx.app.log("STATE", "TOUCH DOWN IS GAME OVER restarting method state GAME OVER");
             world.restart();
         }
@@ -87,6 +87,22 @@ public class InputHandler implements InputProcessor, GestureDetector.GestureList
 
         Gdx.app.log("FLING", "Fling performed, velocity:" + Float.toString(velocityX) +
                 "," + Float.toString(velocityY));
+
+        if (velocityX > 0 && velocityY < 600 && -600 < velocityY) {
+            Gdx.app.log("FLING", "SWIPED TO PURPLE TILE");
+            world.swipePurple();
+        }
+
+        else if (velocityX < 0 && velocityY < 600 && -600 < velocityY) {
+            Gdx.app.log("FLING", "SWIPED TO RED TILE");
+            world.swipeRed();
+        }
+
+        else if (velocityY < 0 && velocityX < 600 && -600 < velocityX) {
+            Gdx.app.log("FLING", "SWIPED TO BLUE TILE");
+            world.swipeBlue();
+        }
+
         return true;
     }
 
