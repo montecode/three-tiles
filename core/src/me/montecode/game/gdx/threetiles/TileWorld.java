@@ -64,7 +64,7 @@ public class TileWorld {
         tilePurple.height = 300 * heightScaleFactor;
 
         for (int i = 0; i < 5; i++) {
-            tileQueue.add(new Tile(200*widthScaleFactor,(400*heightScaleFactor)+i*80*heightScaleFactor,80*widthScaleFactor,80*heightScaleFactor));
+            tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + i * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
         }
 
         Gdx.app.log("STATE", "constructor method state READY");
@@ -120,7 +120,7 @@ public class TileWorld {
             centerTilePurpleHeight += tilePurple.height % 1.00825f;
 
 
-            tilePurple.x = (415 * widthScaleFactor) + centerTilePurpleWidth;
+            tilePurple.x = (415 * widthScaleFactor); // + centerTilePurpleWidth;
             tileRed.x = 15 * widthScaleFactor;
             tileBlue.x = (90 * widthScaleFactor) + centerTileBlueWidth;
 
@@ -130,7 +130,7 @@ public class TileWorld {
 
         }
 
-        if (passedSeconds > 5) {
+        if (passedSeconds > 7) {
             Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
 
             currentState = GameState.GAMEOVER;
@@ -150,15 +150,14 @@ public class TileWorld {
     }
 
     public void swipePurple() {
-       Tile swipedTile = tileQueue.poll();
+        Tile swipedTile = tileQueue.poll();
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
-        if(swipedTile.color == 1){
-            //TODO ENLARGE THE TILE
+        if (swipedTile.color == 1) {
+            enlargeTiles();
+        } else {
+            shrinkTiles();
         }
-
-        else {
-            //TODO SHRINK THE TILE
-        }
+        addTile();
 
     }
 
@@ -166,28 +165,55 @@ public class TileWorld {
         Tile swipedTile = tileQueue.poll();
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
-        if(swipedTile.color == 2){
-            //TODO ENLARGE THE TILE
+        if (swipedTile.color == 2) {
+            enlargeTiles();
+        } else {
+            shrinkTiles();
         }
+        addTile();
 
-        else {
-            //TODO SHRINK THE TILE
-        }
     }
 
     public void swipeBlue() {
         Tile swipedTile = tileQueue.poll();
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
-        if(swipedTile.color == 3){
-            //TODO ENLARGE THE TILE
+        if (swipedTile.color == 3) {
+            enlargeTiles();
+        } else {
+            shrinkTiles();
         }
-
-        else {
-            //TODO SHRINK THE TILE
-        }
+        addTile();
     }
 
+
+    public void enlargeTiles() {
+        tilePurple.width *= 1.225;
+        tileRed.width *= 1.225;
+        tileBlue.width *= 1.225;
+
+        tilePurple.height *= 1.225;
+        tileRed.height *= 1.225;
+        tileBlue.height *= 1.225;
+    }
+
+    public void shrinkTiles() {
+        tilePurple.width /= 1.225;
+        tileRed.width /= 1.225;
+        tileBlue.width /= 1.225;
+
+        tilePurple.height /= 1.225;
+        tileRed.height /= 1.225;
+        tileBlue.height /= 1.225;
+    }
+
+    public void addTile(){
+        for (Tile tile : tileQueue) {
+            tile.y-=80*heightScaleFactor;
+        }
+
+            tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + 4 * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
+    }
 
     public void restart() {
         Gdx.app.log("STATE", "restarting method state RUNNING");
@@ -225,7 +251,7 @@ public class TileWorld {
         }
 
         for (int i = 0; i < 5; i++) {
-            tileQueue.add(new Tile(200*widthScaleFactor,(400*heightScaleFactor)+i*80*heightScaleFactor,80*widthScaleFactor,80*heightScaleFactor));
+            tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + i * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
         }
 
         currentState = GameState.RUNNING;
