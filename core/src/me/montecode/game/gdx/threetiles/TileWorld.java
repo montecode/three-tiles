@@ -47,7 +47,7 @@ public class TileWorld {
     public TileWorld() {
 
         // EXAMPLE 480.0 800.0
-        tilePurple.x = 415 * widthScaleFactor;
+        tilePurple.x = 405 * widthScaleFactor;
         tileRed.x = 15 * widthScaleFactor;
         tileBlue.x = 90 * widthScaleFactor;
 
@@ -107,8 +107,8 @@ public class TileWorld {
         if (runTime > 0.02) {
             passedSeconds += runTime;
             runTime = 0;
-            centerTilePurpleWidth += tilePurple.width - tilePurple.width / 1.00825; // % 1.00825f;
-            centerTileBlueWidth += (tileBlue.width - tileBlue.width / 1.00825) / 2;//% 1.00825f;
+//            centerTilePurpleWidth += (tilePurple.width - tilePurple.width / 1.00825) / 2; // % 1.00825f;
+            centerTileBlueWidth = (300 * widthScaleFactor - tileBlue.width / 1.00825f)/2;// tileBlue.width - tileBlue.width / 1.00825;//% 1.00825f;
             tilePurple.width /= 1.00825;
             tileRed.width /= 1.00825;
             tileBlue.width /= 1.00825;
@@ -117,16 +117,14 @@ public class TileWorld {
             tileRed.height /= 1.00825;
             tileBlue.height /= 1.00825;
 
-            centerTilePurpleHeight += tilePurple.height % 1.00825f;
+//            centerTilePurpleHeight += tilePurple.height % 1.00825f;
+//            Gdx.app.log("centerTileBlueWidth", " some shit " + String.valueOf(centerTileBlueWidth));
 
+//            tilePurple.x = (405 * widthScaleFactor) + centerTilePurpleWidth;
+            tileBlue.x = ((90 + centerTileBlueWidth) * widthScaleFactor);
 
-            tilePurple.x = (415 * widthScaleFactor); // + centerTilePurpleWidth;
-            tileRed.x = 15 * widthScaleFactor;
-            tileBlue.x = (90 * widthScaleFactor) + centerTileBlueWidth;
-
-            tilePurple.y = (200 * heightScaleFactor) + centerTilePurpleHeight;
-            tileRed.y = 200 * heightScaleFactor + centerTilePurpleHeight;
-            tileBlue.y = 15 * heightScaleFactor;
+//            tilePurple.y = (200 * heightScaleFactor) + centerTilePurpleHeight;
+//            tileRed.y = 200 * heightScaleFactor + centerTilePurpleHeight;
 
         }
 
@@ -223,7 +221,7 @@ public class TileWorld {
         float widthScaleFactor = screenWidth / 480;
         float heightScaleFactor = screenHeight / 800;
 
-        tilePurple.x = 415 * widthScaleFactor;
+        tilePurple.x = 405 * widthScaleFactor;
         tileRed.x = 15 * widthScaleFactor;
         tileBlue.x = 90 * widthScaleFactor;
 
