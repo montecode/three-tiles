@@ -31,6 +31,8 @@ public class TileWorld {
     float runTime;
     float passedSeconds = 0;
 
+    float divider = 1.00925f;
+
     public enum GameState {
         READY, RUNNING, GAMEOVER
     }
@@ -90,21 +92,19 @@ public class TileWorld {
 //        Gdx.app.log("DELTA WORLD ", String.valueOf(delta));
 //        Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE RUNNING");
 
-        // center tiles while shrinking
         runTime += delta;
 
         if (runTime > 0.02) {
             passedSeconds += runTime;
             runTime = 0;
-            centerTilePurpleWidth = ((60 * widthScaleFactor) - tilePurple.width / 1.00925f);
-            tilePurple.width /= 1.00925;
-            tileRed.width /= 1.00925;
-            tileBlue.width /= 1.00925;
-//TODO INCREMENT DIVIDER VALUE OVER TIME
+            centerTilePurpleWidth = ((60 * widthScaleFactor) - tilePurple.width / divider);
+            tilePurple.width /= divider;
+            tileRed.width /= divider;
+            tileBlue.width /= divider;
 
-            tilePurple.height /= 1.00925;
-            tileRed.height /= 1.00925;
-            tileBlue.height /= 1.00925;
+            tilePurple.height /= divider;
+            tileRed.height /= divider;
+            tileBlue.height /= divider;
 
             tilePurple.x = (405 * widthScaleFactor )+centerTilePurpleWidth ;
             tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
@@ -112,24 +112,14 @@ public class TileWorld {
             tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
             tileRed.y = (screenHeight / 2) - tileRed.height/2;
 
+            divider=divider*1.00005f;
         }
 
-        if (tileBlue.width < 60 * widthScaleFactor) {
+            if (tileBlue.width < 30 * widthScaleFactor) {
 
-            tilePurple.width /= 1.01925;
-            tileRed.width /= 1.01925;
-            tileBlue.width /= 1.01925;
+                Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
+                Gdx.app.log("gameover", " purple height: " + String.valueOf(tilePurple.height) + " blue width: " + String.valueOf(tileBlue.width));
 
-            tilePurple.height /= 1.01925;
-            tileRed.height /= 1.01925;
-            tileBlue.height /= 1.01925;
-
-            tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
-
-            Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
-            Gdx.app.log("gameover", " purple height: " + String.valueOf(tilePurple.height) + " blue width: " + String.valueOf(tileBlue.width));
-
-            if (tileBlue.width < 10 * widthScaleFactor) {
                 tilePurple.width = 0;
                 tileRed.width = 0;
                 tileBlue.width = 0;
@@ -139,7 +129,7 @@ public class TileWorld {
                 tileBlue.height = 0;
                 currentState = GameState.GAMEOVER;
             }
-        }
+//        }
 //        tilePurple.x++;
 //        if (tilePurple.x > 799) {
 //            tilePurple.x = 0;
@@ -163,7 +153,6 @@ public class TileWorld {
             shrinkTiles();
         }
         addTile();
-
     }
 
     public void swipeRed() {
@@ -190,7 +179,6 @@ public class TileWorld {
         }
         addTile();
     }
-
 
     public void enlargeTiles() {
         tilePurple.width *= 1.1625;
@@ -228,7 +216,6 @@ public class TileWorld {
         float widthScaleFactor = screenWidth / 480;
         float heightScaleFactor = screenHeight / 800;
 
-
         tileRed.width = 60 * widthScaleFactor;
         tilePurple.width = 60 * widthScaleFactor;
         tileBlue.width = 300 * widthScaleFactor;
@@ -240,7 +227,6 @@ public class TileWorld {
         tilePurple.x = 405 * widthScaleFactor;
         tileRed.x = 15 * widthScaleFactor;
         tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
-
 
         tileBlue.y = 15 * heightScaleFactor;
         tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
@@ -260,6 +246,8 @@ public class TileWorld {
         for (int i = 0; i < 5; i++) {
             tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + i * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
         }
+
+        divider = 1.00925f;
 
         currentState = GameState.RUNNING;
     }
