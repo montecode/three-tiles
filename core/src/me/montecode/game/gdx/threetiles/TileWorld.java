@@ -10,18 +10,10 @@ import java.util.Queue;
  */
 public class TileWorld {
 
-    // 800 x 600
-//    private Tile tilePurple = new Tile(735, 200, 40, 235);
-//    private Tile tileBlue = new Tile(300, 25, 235, 40);
-//    private Tile tileRed = new Tile(25,200, 40, 235);
-
     // 480 x 800
     private Tile tilePurple = new Tile(425, 200, 50, 300);
     private Tile tileBlue = new Tile(130, 15, 300, 50);
     private Tile tileRed = new Tile(15, 200, 50, 300);
-
-    private Tile tile = new Tile(15, 200, 50, 300);
-
 
     Queue<Tile> tileQueue = new LinkedList<Tile>();
 
@@ -39,21 +31,11 @@ public class TileWorld {
     float runTime;
     float passedSeconds = 0;
 
-
     public enum GameState {
         READY, RUNNING, GAMEOVER
     }
 
     public TileWorld() {
-
-        // EXAMPLE 480.0 800.0
-        tilePurple.x = 405 * widthScaleFactor;
-        tileRed.x = 15 * widthScaleFactor;
-        tileBlue.x = 90 * widthScaleFactor;
-
-        tilePurple.y = 200 * heightScaleFactor;
-        tileRed.y = 200 * heightScaleFactor;
-        tileBlue.y = 15 * heightScaleFactor;
 
         tileRed.width = 60 * widthScaleFactor;
         tilePurple.width = 60 * widthScaleFactor;
@@ -63,12 +45,19 @@ public class TileWorld {
         tileBlue.height = 60 * heightScaleFactor;
         tilePurple.height = 300 * heightScaleFactor;
 
+        tilePurple.x = 405 * widthScaleFactor;
+        tileRed.x = 15 * widthScaleFactor;
+        tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;//90 * widthScaleFactor;
+
+        tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
+        tileRed.y = (screenHeight / 2) - tileRed.height/2;
+        tileBlue.y = 15 * heightScaleFactor;
+
         for (int i = 0; i < 5; i++) {
             tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + i * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
         }
 
         Gdx.app.log("STATE", "constructor method state READY");
-
         Gdx.app.log("SCREEN DIMENSIONS", String.valueOf(screenWidth) + " " + String.valueOf(screenHeight));
 
         currentState = GameState.READY;
@@ -107,31 +96,49 @@ public class TileWorld {
         if (runTime > 0.02) {
             passedSeconds += runTime;
             runTime = 0;
-//            centerTilePurpleWidth += (tilePurple.width - tilePurple.width / 1.00825) / 2; // % 1.00825f;
-            centerTileBlueWidth = (300 * widthScaleFactor - tileBlue.width / 1.00825f)/2;// tileBlue.width - tileBlue.width / 1.00825;//% 1.00825f;
-            tilePurple.width /= 1.00825;
-            tileRed.width /= 1.00825;
-            tileBlue.width /= 1.00825;
+            centerTilePurpleWidth = ((60 * widthScaleFactor) - tilePurple.width / 1.00925f);
+            tilePurple.width /= 1.00925;
+            tileRed.width /= 1.00925;
+            tileBlue.width /= 1.00925;
+//TODO INCREMENT DIVIDER VALUE OVER TIME
 
-            tilePurple.height /= 1.00825;
-            tileRed.height /= 1.00825;
-            tileBlue.height /= 1.00825;
+            tilePurple.height /= 1.00925;
+            tileRed.height /= 1.00925;
+            tileBlue.height /= 1.00925;
 
-//            centerTilePurpleHeight += tilePurple.height % 1.00825f;
-//            Gdx.app.log("centerTileBlueWidth", " some shit " + String.valueOf(centerTileBlueWidth));
+            tilePurple.x = (405 * widthScaleFactor )+centerTilePurpleWidth ;
+            tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
 
-//            tilePurple.x = (405 * widthScaleFactor) + centerTilePurpleWidth;
-            tileBlue.x = ((90 + centerTileBlueWidth) * widthScaleFactor);
-
-//            tilePurple.y = (200 * heightScaleFactor) + centerTilePurpleHeight;
-//            tileRed.y = 200 * heightScaleFactor + centerTilePurpleHeight;
+            tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
+            tileRed.y = (screenHeight / 2) - tileRed.height/2;
 
         }
 
-        if (passedSeconds > 7) {
-            Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
+        if (tileBlue.width < 60 * widthScaleFactor) {
 
-            currentState = GameState.GAMEOVER;
+            tilePurple.width /= 1.01925;
+            tileRed.width /= 1.01925;
+            tileBlue.width /= 1.01925;
+
+            tilePurple.height /= 1.01925;
+            tileRed.height /= 1.01925;
+            tileBlue.height /= 1.01925;
+
+            tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
+
+            Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
+            Gdx.app.log("gameover", " purple height: " + String.valueOf(tilePurple.height) + " blue width: " + String.valueOf(tileBlue.width));
+
+            if (tileBlue.width < 10 * widthScaleFactor) {
+                tilePurple.width = 0;
+                tileRed.width = 0;
+                tileBlue.width = 0;
+
+                tilePurple.height = 0;
+                tileRed.height = 0;
+                tileBlue.height = 0;
+                currentState = GameState.GAMEOVER;
+            }
         }
 //        tilePurple.x++;
 //        if (tilePurple.x > 799) {
@@ -186,31 +193,31 @@ public class TileWorld {
 
 
     public void enlargeTiles() {
-        tilePurple.width *= 1.225;
-        tileRed.width *= 1.225;
-        tileBlue.width *= 1.225;
+        tilePurple.width *= 1.1625;
+        tileRed.width *= 1.1625;
+        tileBlue.width *= 1.1625;
 
-        tilePurple.height *= 1.225;
-        tileRed.height *= 1.225;
-        tileBlue.height *= 1.225;
+        tilePurple.height *= 1.1625;
+        tileRed.height *= 1.1625;
+        tileBlue.height *= 1.1625;
     }
 
     public void shrinkTiles() {
-        tilePurple.width /= 1.225;
-        tileRed.width /= 1.225;
-        tileBlue.width /= 1.225;
+        tilePurple.width /= 1.1625;
+        tileRed.width /= 1.1625;
+        tileBlue.width /= 1.1625;
 
-        tilePurple.height /= 1.225;
-        tileRed.height /= 1.225;
-        tileBlue.height /= 1.225;
+        tilePurple.height /= 1.1625;
+        tileRed.height /= 1.1625;
+        tileBlue.height /= 1.1625;
     }
 
-    public void addTile(){
+    public void addTile() {
         for (Tile tile : tileQueue) {
-            tile.y-=80*heightScaleFactor;
+            tile.y -= 80 * heightScaleFactor;
         }
 
-            tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + 4 * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
+        tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + 4 * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
     }
 
     public void restart() {
@@ -221,13 +228,6 @@ public class TileWorld {
         float widthScaleFactor = screenWidth / 480;
         float heightScaleFactor = screenHeight / 800;
 
-        tilePurple.x = 405 * widthScaleFactor;
-        tileRed.x = 15 * widthScaleFactor;
-        tileBlue.x = 90 * widthScaleFactor;
-
-        tilePurple.y = 200 * heightScaleFactor;
-        tileRed.y = 200 * heightScaleFactor;
-        tileBlue.y = 15 * heightScaleFactor;
 
         tileRed.width = 60 * widthScaleFactor;
         tilePurple.width = 60 * widthScaleFactor;
@@ -236,6 +236,15 @@ public class TileWorld {
         tileRed.height = 300 * heightScaleFactor;
         tileBlue.height = 60 * heightScaleFactor;
         tilePurple.height = 300 * heightScaleFactor;
+
+        tilePurple.x = 405 * widthScaleFactor;
+        tileRed.x = 15 * widthScaleFactor;
+        tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
+
+
+        tileBlue.y = 15 * heightScaleFactor;
+        tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
+        tileRed.y = (screenHeight / 2) - tileRed.height/2;
 
         passedSeconds = 0;
         runTime = 0;
@@ -254,7 +263,6 @@ public class TileWorld {
 
         currentState = GameState.RUNNING;
     }
-
 
     public Tile getPurpleTile() {
         return tilePurple;
