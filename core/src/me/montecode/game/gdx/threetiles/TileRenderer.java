@@ -12,15 +12,15 @@ import java.util.Queue;
  * Created by stevyhacker on 5.10.14..
  */
 public class TileRenderer {
-    private  OrthographicCamera camera;
-    private  SpriteBatch batcher;
+    private OrthographicCamera camera;
+    private SpriteBatch batcher;
     private ShapeRenderer shapeRenderer;
     private TileWorld world;
 
     public TileRenderer(TileWorld world) {
         this.world = world;
 
-        camera = new OrthographicCamera(480,800);
+        camera = new OrthographicCamera(480, 800);
         camera.setToOrtho(true);
 
         batcher = new SpriteBatch();
@@ -68,8 +68,8 @@ public class TileRenderer {
 
         Queue<Tile> tileQueue = world.getTileQueue();
 
-        for (Tile tile : tileQueue){
-            switch (tile.color){
+        for (Tile tile : tileQueue) {
+            switch (tile.color) {
                 case 1: //PURPLE
                     shapeRenderer.setColor(43 / 255.0f, 19 / 255.0f, 55 / 255.0f, 1);
                     shapeRenderer.rect(tile.x, tile.y,
@@ -89,6 +89,13 @@ public class TileRenderer {
         }
 
         shapeRenderer.end();
+
+        batcher.begin();
+
+        if (world.isRunning()) {
+            AssetLoader.font.draw(batcher, String.valueOf(world.getScore()), 25 * world.widthScaleFactor, 50 * world.heightScaleFactor);
+        }
+        batcher.end();
 
         // Tells shapeRenderer to draw an outline of the following shapes
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

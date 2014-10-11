@@ -33,6 +33,8 @@ public class TileWorld {
 
     float divider = 1.00925f;
 
+    private int score = 0;
+
     public enum GameState {
         READY, RUNNING, GAMEOVER
     }
@@ -181,6 +183,7 @@ public class TileWorld {
     }
 
     public void enlargeTiles() {
+        score++;
         tilePurple.width *= 1.1625;
         tileRed.width *= 1.1625;
         tileBlue.width *= 1.1625;
@@ -248,6 +251,7 @@ public class TileWorld {
         }
 
         divider = 1.00925f;
+        score = 0;
 
         currentState = GameState.RUNNING;
     }
@@ -268,6 +272,10 @@ public class TileWorld {
         return currentState == GameState.READY;
     }
 
+    public boolean isRunning() {
+        return currentState == GameState.RUNNING;
+    }
+
     public boolean isGameOver() {
         return currentState == GameState.GAMEOVER;
     }
@@ -278,5 +286,9 @@ public class TileWorld {
 
     public Queue<Tile> getTileQueue() {
         return tileQueue;
+    }
+
+    public int getScore(){
+        return score;
     }
 }
