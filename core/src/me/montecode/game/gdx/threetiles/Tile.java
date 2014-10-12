@@ -9,6 +9,7 @@ import java.util.Random;
  */
 public class Tile extends Rectangle {
     int color;
+    int direction;
 
     public Tile(float x, float y, float width, float height) {
         super(x, y, width, height);

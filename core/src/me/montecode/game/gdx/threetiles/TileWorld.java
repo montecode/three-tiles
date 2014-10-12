@@ -129,19 +129,23 @@ public class TileWorld {
         }
 
         if (swipedTile != null) {
-            swipedTile.width /= 1.05;
-            swipedTile.height /= 1.05;
+            swipedTile.width /= 1.1;
+            swipedTile.height /= 1.1;
 
-            switch (swipedTile.color) {
+            switch (swipedTile.direction) {
 
                 case 1: //PURPLE
-                    swipedTile.x +=screenWidth * 1.02 - screenWidth;
+                    swipedTile.x +=screenWidth * 1.04 - screenWidth;
+                    swipedTile.y = (screenHeight / 2) - swipedTile.height / 2;
                     break;
                 case 2: //RED
-                    swipedTile.x -=screenWidth * 1.02 - screenWidth;
+                    swipedTile.x -=screenWidth * 1.04 - screenWidth;
+                    swipedTile.y = (screenHeight / 2) - swipedTile.height / 2;
+
                     break;
                 default:  //BLUE
-                   swipedTile.y-= screenHeight * 1.02 - screenHeight;
+                   swipedTile.y-= screenHeight * 1.04 - screenHeight;
+                   swipedTile.x= (screenWidth / 2) -swipedTile.width / 2;
                      break;
             }
         }
@@ -177,6 +181,7 @@ public class TileWorld {
 
     public void swipePurple() {
         swipedTile = tileQueue.poll();
+        swipedTile.direction=1;
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
 
@@ -190,6 +195,7 @@ public class TileWorld {
 
     public void swipeRed() {
         swipedTile = tileQueue.poll();
+        swipedTile.direction=2;
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
         if (swipedTile.color == 2) {
@@ -202,6 +208,7 @@ public class TileWorld {
 
     public void swipeBlue() {
         swipedTile = tileQueue.poll();
+        swipedTile.direction=3;
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
         if (swipedTile.color == 3) {
