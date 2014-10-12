@@ -14,6 +14,7 @@ public class TileWorld {
     private Tile tilePurple = new Tile(425, 200, 50, 300);
     private Tile tileBlue = new Tile(130, 15, 300, 50);
     private Tile tileRed = new Tile(15, 200, 50, 300);
+    public Tile swipedTile;
 
     Queue<Tile> tileQueue = new LinkedList<Tile>();
 
@@ -35,6 +36,7 @@ public class TileWorld {
 
     private int score = 0;
 
+
     public enum GameState {
         READY, RUNNING, GAMEOVER
     }
@@ -51,10 +53,10 @@ public class TileWorld {
 
         tilePurple.x = 405 * widthScaleFactor;
         tileRed.x = 15 * widthScaleFactor;
-        tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;//90 * widthScaleFactor;
+        tileBlue.x = (screenWidth / 2) - tileBlue.width / 2;//90 * widthScaleFactor;
 
-        tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
-        tileRed.y = (screenHeight / 2) - tileRed.height/2;
+        tilePurple.y = (screenHeight / 2) - tilePurple.height / 2;
+        tileRed.y = (screenHeight / 2) - tileRed.height / 2;
         tileBlue.y = 15 * heightScaleFactor;
 
         for (int i = 0; i < 5; i++) {
@@ -79,8 +81,17 @@ public class TileWorld {
             case RUNNING:
                 updateRunning(delta);
                 break;
-            default:
+            case GAMEOVER:
+                updateGameOver(delta);
                 break;
+        }
+
+    }
+
+    private void updateGameOver(float delta) {
+
+        if (score > AssetLoader.getHighScore()) {
+            AssetLoader.setHighScore(score);
         }
 
     }
@@ -108,29 +119,47 @@ public class TileWorld {
             tileRed.height /= divider;
             tileBlue.height /= divider;
 
-            tilePurple.x = (405 * widthScaleFactor )+centerTilePurpleWidth ;
-            tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
+            tilePurple.x = (405 * widthScaleFactor) + centerTilePurpleWidth;
+            tileBlue.x = (screenWidth / 2) - tileBlue.width / 2;
 
-            tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
-            tileRed.y = (screenHeight / 2) - tileRed.height/2;
+            tilePurple.y = (screenHeight / 2) - tilePurple.height / 2;
+            tileRed.y = (screenHeight / 2) - tileRed.height / 2;
 
-            divider=divider*1.00005f;
+            divider = divider * 1.00006f;
         }
 
-            if (tileBlue.width < 30 * widthScaleFactor) {
+        if (swipedTile != null) {
+            swipedTile.width /= 1.05;
+            swipedTile.height /= 1.05;
 
-                Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
-                Gdx.app.log("gameover", " purple height: " + String.valueOf(tilePurple.height) + " blue width: " + String.valueOf(tileBlue.width));
+            switch (swipedTile.color) {
 
-                tilePurple.width = 0;
-                tileRed.width = 0;
-                tileBlue.width = 0;
-
-                tilePurple.height = 0;
-                tileRed.height = 0;
-                tileBlue.height = 0;
-                currentState = GameState.GAMEOVER;
+                case 1: //PURPLE
+                    swipedTile.x +=screenWidth * 1.02 - screenWidth;
+                    break;
+                case 2: //RED
+                    swipedTile.x -=screenWidth * 1.02 - screenWidth;
+                    break;
+                default:  //BLUE
+                   swipedTile.y-= screenHeight * 1.02 - screenHeight;
+                     break;
             }
+        }
+
+        if (tileBlue.width < 25 * widthScaleFactor) {
+
+            Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
+            Gdx.app.log("gameover", " purple height: " + String.valueOf(tilePurple.height) + " blue width: " + String.valueOf(tileBlue.width));
+
+            tilePurple.width = 0;
+            tileRed.width = 0;
+            tileBlue.width = 0;
+
+            tilePurple.height = 0;
+            tileRed.height = 0;
+            tileBlue.height = 0;
+            currentState = GameState.GAMEOVER;
+        }
 //        }
 //        tilePurple.x++;
 //        if (tilePurple.x > 799) {
@@ -147,8 +176,10 @@ public class TileWorld {
     }
 
     public void swipePurple() {
-        Tile swipedTile = tileQueue.poll();
+        swipedTile = tileQueue.poll();
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
+
+
         if (swipedTile.color == 1) {
             enlargeTiles();
         } else {
@@ -158,7 +189,7 @@ public class TileWorld {
     }
 
     public void swipeRed() {
-        Tile swipedTile = tileQueue.poll();
+        swipedTile = tileQueue.poll();
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
         if (swipedTile.color == 2) {
@@ -167,11 +198,10 @@ public class TileWorld {
             shrinkTiles();
         }
         addTile();
-
     }
 
     public void swipeBlue() {
-        Tile swipedTile = tileQueue.poll();
+        swipedTile = tileQueue.poll();
         Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
         if (swipedTile.color == 3) {
@@ -184,23 +214,23 @@ public class TileWorld {
 
     public void enlargeTiles() {
         score++;
-        tilePurple.width *= 1.1625;
-        tileRed.width *= 1.1625;
-        tileBlue.width *= 1.1625;
+        tilePurple.width *= 1.205;
+        tileRed.width *= 1.205;
+        tileBlue.width *= 1.205;
 
-        tilePurple.height *= 1.1625;
-        tileRed.height *= 1.1625;
-        tileBlue.height *= 1.1625;
+        tilePurple.height *= 1.205;
+        tileRed.height *= 1.205;
+        tileBlue.height *= 1.205;
     }
 
     public void shrinkTiles() {
-        tilePurple.width /= 1.1625;
-        tileRed.width /= 1.1625;
-        tileBlue.width /= 1.1625;
+        tilePurple.width /= 1.205;
+        tileRed.width /= 1.205;
+        tileBlue.width /= 1.205;
 
-        tilePurple.height /= 1.1625;
-        tileRed.height /= 1.1625;
-        tileBlue.height /= 1.1625;
+        tilePurple.height /= 1.205;
+        tileRed.height /= 1.205;
+        tileBlue.height /= 1.205;
     }
 
     public void addTile() {
@@ -229,11 +259,11 @@ public class TileWorld {
 
         tilePurple.x = 405 * widthScaleFactor;
         tileRed.x = 15 * widthScaleFactor;
-        tileBlue.x =  (screenWidth/2)  - tileBlue.width/2 ;
+        tileBlue.x = (screenWidth / 2) - tileBlue.width / 2;
 
         tileBlue.y = 15 * heightScaleFactor;
-        tilePurple.y = (screenHeight / 2) - tilePurple.height/2;
-        tileRed.y = (screenHeight / 2) - tileRed.height/2;
+        tilePurple.y = (screenHeight / 2) - tilePurple.height / 2;
+        tileRed.y = (screenHeight / 2) - tileRed.height / 2;
 
         passedSeconds = 0;
         runTime = 0;
@@ -252,7 +282,7 @@ public class TileWorld {
 
         divider = 1.00925f;
         score = 0;
-
+        swipedTile=null;
         currentState = GameState.RUNNING;
     }
 
@@ -288,7 +318,16 @@ public class TileWorld {
         return tileQueue;
     }
 
-    public int getScore(){
+    public int getScore() {
         return score;
     }
+
+    public Tile getSwipedTile() {
+        return swipedTile;
+    }
+
+    public int getHighScore() {
+        return AssetLoader.getHighScore();
+    }
+
 }

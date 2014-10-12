@@ -87,16 +87,57 @@ public class TileRenderer {
             }
         }
 
-        shapeRenderer.end();
+        if (world.getSwipedTile() != null) {
+            Tile swipedTile = world.getSwipedTile();
+            switch (swipedTile.color) {
 
-        batcher.begin();
-
-        if (world.isRunning()) {
-            AssetLoader.fontFF.draw(batcher, String.valueOf(world.getScore()), 25 * world.widthScaleFactor, 50 * world.heightScaleFactor);
+                case 1: //PURPLE
+                shapeRenderer.setColor(43 / 255.0f, 19 / 255.0f, 55 / 255.0f, 1);
+                shapeRenderer.rect(swipedTile.x, swipedTile.y,
+                        swipedTile.width, swipedTile.height);
+                break;
+            case 2: //RED
+                shapeRenderer.setColor(236 / 255.0f, 14 / 255.0f, 93 / 255.0f, 1);
+                shapeRenderer.rect(swipedTile.x, swipedTile.y,
+                        swipedTile.width, swipedTile.height);
+                break;
+            default:  //BLUE
+                shapeRenderer.setColor(29 / 255.0f, 192 / 255.0f, 206 / 255.0f, 1);
+                shapeRenderer.rect(swipedTile.x, swipedTile.y,
+                        swipedTile.width, swipedTile.height);
+                break;
         }
-        batcher.end();
+    }
 
-        // Tells shapeRenderer to draw an outline of the following shapes
+    shapeRenderer.end();
+
+    batcher.begin();
+
+    if(world.isReady())
+
+    {
+        AssetLoader.fontText.draw(batcher, "Swipe the tiles to play", world.screenWidth / 2 - world.screenWidth / 3.5f, world.screenHeight / 2 - world.screenHeight / 8);
+    }
+
+    if(world.isRunning())
+
+    {
+        AssetLoader.font.draw(batcher, String.valueOf(world.getScore()), 25 * world.widthScaleFactor, 50 * world.heightScaleFactor);
+    }
+
+    AssetLoader.font.draw(batcher,"FPS:"+Gdx.graphics.getFramesPerSecond(),world.screenWidth-150*world.widthScaleFactor,world.screenHeight-50*world.heightScaleFactor);
+    if(world.isGameOver())
+
+    {
+        AssetLoader.font.draw(batcher, "Your score: " + String.valueOf(world.getScore()), world.screenWidth / 2 - world.screenWidth / 3.5f, world.screenHeight / 2 - world.screenHeight / 3);
+        AssetLoader.font.draw(batcher, "High score: " + String.valueOf(world.getHighScore()), world.screenWidth / 2 - world.screenWidth / 3.5f, world.screenHeight / 2 - world.screenHeight / 4);
+
+        AssetLoader.fontText.draw(batcher, "Swipe the tiles to play", world.screenWidth / 2 - world.screenWidth / 3.5f, world.screenHeight / 2 - world.screenHeight / 8);
+    }
+
+    batcher.end();
+
+    // Tells shapeRenderer to draw an outline of the following shapes
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //
 //        // Chooses RGB Color of 255, 109, 120 at full opacity
@@ -108,5 +149,5 @@ public class TileRenderer {
 //
 //        shapeRenderer.end();
 
-    }
+}
 }

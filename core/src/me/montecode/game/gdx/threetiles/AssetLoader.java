@@ -12,32 +12,26 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class AssetLoader {
 
-    public static BitmapFont font;
-    public static BitmapFont font2;
-    public static BitmapFont fontFF;
 
+    public static BitmapFont font;
+    public static BitmapFont fontText;
     public static Preferences prefs;
 
 
     public static void load() {
 
-        font2 = new BitmapFont();
-        font2.setColor(Color.BLACK);
-        font2.setScale(1.5f,-1.5f);
-
-
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator((Gdx.files.internal("data/RobotoCondensed-Regular.ttf")));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.kerning=true;
         fontParameter.flip=true;
-        fontParameter.size=48;
-         fontFF = generator.generateFont(fontParameter);
-         fontFF.setColor(Color.BLACK);
-        generator.dispose();
+        fontParameter.size= Gdx.graphics.getHeight()/800 *48;
+         font = generator.generateFont(fontParameter);
+         font.setColor(Color.BLACK);
 
-        font = new BitmapFont(Gdx.files.internal("data/roboto-regular.fnt"));
-        font.setColor(Color.BLACK);
-        font.setScale(0.5f, -0.5f);
+        fontParameter.size= Gdx.graphics.getHeight()/800 *32;
+        fontText = generator.generateFont(fontParameter);
+        fontText.setColor(Color.BLACK);
+        generator.dispose();
 
         // Create (or retrieve existing) preferences file
         prefs = Gdx.app.getPreferences("ThreeTiles");
