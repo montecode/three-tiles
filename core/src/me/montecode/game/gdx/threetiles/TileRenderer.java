@@ -65,7 +65,6 @@ public class TileRenderer {
         shapeRenderer.rect(world.getBlueTile().x, world.getBlueTile().y,
                 world.getBlueTile().width, world.getBlueTile().height);
 
-
         Queue<Tile> tileQueue = world.getTileQueue();
 
         for (Tile tile : tileQueue) {
@@ -93,7 +92,7 @@ public class TileRenderer {
         batcher.begin();
 
         if (world.isRunning()) {
-            AssetLoader.font.draw(batcher, String.valueOf(world.getScore()), 25 * world.widthScaleFactor, 50 * world.heightScaleFactor);
+            AssetLoader.fontFF.draw(batcher, String.valueOf(world.getScore()), 25 * world.widthScaleFactor, 50 * world.heightScaleFactor);
         }
         batcher.end();
 
