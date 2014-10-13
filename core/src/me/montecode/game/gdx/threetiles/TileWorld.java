@@ -35,6 +35,7 @@ public class TileWorld {
     float divider = 1.00925f;
 
     private int score = 0;
+    public int scoreScreenDelay;
 
 
     public enum GameState {
@@ -63,12 +64,11 @@ public class TileWorld {
             tileQueue.add(new Tile(200 * widthScaleFactor, (400 * heightScaleFactor) + i * 80 * heightScaleFactor, 80 * widthScaleFactor, 80 * heightScaleFactor));
         }
 
-        Gdx.app.log("STATE", "constructor method state READY");
-        Gdx.app.log("SCREEN DIMENSIONS", String.valueOf(screenWidth) + " " + String.valueOf(screenHeight));
+//        Gdx.app.log("STATE", "constructor method state READY");
+//        Gdx.app.log("SCREEN DIMENSIONS", String.valueOf(screenWidth) + " " + String.valueOf(screenHeight));
 
         currentState = GameState.READY;
 
-        //TODO CREATE ASSET LOADER FOR FONTS AND SHOW WELCOME MESSAGE WITH HINTS
     }
 
     public void update(float delta) {
@@ -94,6 +94,8 @@ public class TileWorld {
             AssetLoader.setHighScore(score);
         }
 
+        scoreScreenDelay++;//=delta;
+//        Gdx.app.log("DELTA WORLD ", String.valueOf(scoreScreenDelay));
     }
 
     private void updateReady(float delta) {
@@ -135,25 +137,62 @@ public class TileWorld {
             switch (swipedTile.direction) {
 
                 case 1: //PURPLE
-                    swipedTile.x +=screenWidth * 1.04 - screenWidth;
-                    swipedTile.y = (screenHeight / 2) - swipedTile.height / 2;
+                    swipedTile.x += screenWidth * 1.05 - screenWidth;
+//                    swipedTile.y = (screenHeight / 2) - swipedTile.height / 2;
                     break;
                 case 2: //RED
-                    swipedTile.x -=screenWidth * 1.04 - screenWidth;
-                    swipedTile.y = (screenHeight / 2) - swipedTile.height / 2;
+                    swipedTile.x -= screenWidth * 1.05 - screenWidth;
+//                    swipedTile.y = (screenHeight / 2) - swipedTile.height / 2;
 
                     break;
                 default:  //BLUE
-                   swipedTile.y-= screenHeight * 1.04 - screenHeight;
-                   swipedTile.x= (screenWidth / 2) -swipedTile.width / 2;
-                     break;
+                    swipedTile.y -= screenHeight * 1.05 - screenHeight;
+                    swipedTile.x = (screenWidth / 2) - swipedTile.width / 2;
+                    break;
             }
+
+            if (swipedTile.x + 1 > tilePurple.x) {
+
+                if (swipedTile.color == 1) {
+                    enlargeTiles();
+                } else {
+                    shrinkTiles();
+                }
+                swipedTile = null;
+                addTile();
+            }
+            if (swipedTile != null) {
+                if (swipedTile.x - 1 < tileRed.x) {
+
+                    if (swipedTile.color == 2) {
+                        enlargeTiles();
+                    } else {
+                        shrinkTiles();
+                    }
+                    swipedTile = null;
+                    addTile();
+                }
+            }
+            if (swipedTile != null) {
+                if (swipedTile.y - 1 < tileBlue.y) {
+
+                    if (swipedTile.color == 3) {
+                        enlargeTiles();
+                    } else {
+                        shrinkTiles();
+                    }
+                    swipedTile = null;
+                    addTile();
+                }
+            }
+
         }
 
-        if (tileBlue.width < 25 * widthScaleFactor) {
 
-            Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
-            Gdx.app.log("gameover", " purple height: " + String.valueOf(tilePurple.height) + " blue width: " + String.valueOf(tileBlue.width));
+        if (tileBlue.width < 30 * widthScaleFactor) {
+
+//            Gdx.app.log("STATE", "UPDATE RUNNING METHOD STATE GAME OVER");
+//            Gdx.app.log("gameover", " purple height: " + String.valueOf(tilePurple.height) + " blue width: " + String.valueOf(tileBlue.width));
 
             tilePurple.width = 0;
             tileRed.width = 0;
@@ -181,42 +220,25 @@ public class TileWorld {
 
     public void swipePurple() {
         swipedTile = tileQueue.poll();
-        swipedTile.direction=1;
-        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
+        swipedTile.direction = 1;
+//        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
 
-        if (swipedTile.color == 1) {
-            enlargeTiles();
-        } else {
-            shrinkTiles();
-        }
-        addTile();
     }
 
     public void swipeRed() {
         swipedTile = tileQueue.poll();
-        swipedTile.direction=2;
-        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
+        swipedTile.direction = 2;
+//        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
-        if (swipedTile.color == 2) {
-            enlargeTiles();
-        } else {
-            shrinkTiles();
-        }
-        addTile();
+
     }
 
     public void swipeBlue() {
         swipedTile = tileQueue.poll();
-        swipedTile.direction=3;
-        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
+        swipedTile.direction = 3;
+//        Gdx.app.log("TILECOLOR", " COLOR INT: " + String.valueOf(swipedTile.color));
 
-        if (swipedTile.color == 3) {
-            enlargeTiles();
-        } else {
-            shrinkTiles();
-        }
-        addTile();
     }
 
     public void enlargeTiles() {
@@ -249,7 +271,7 @@ public class TileWorld {
     }
 
     public void restart() {
-        Gdx.app.log("STATE", "restarting method state RUNNING");
+//        Gdx.app.log("STATE", "restarting method state RUNNING");
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
@@ -274,6 +296,7 @@ public class TileWorld {
 
         passedSeconds = 0;
         runTime = 0;
+        scoreScreenDelay = 0;
 
         centerTilePurpleHeight = 0;
         centerTilePurpleWidth = 0;
@@ -289,7 +312,7 @@ public class TileWorld {
 
         divider = 1.00925f;
         score = 0;
-        swipedTile=null;
+        swipedTile = null;
         currentState = GameState.RUNNING;
     }
 

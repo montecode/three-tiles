@@ -1,6 +1,5 @@
 package me.montecode.game.gdx.threetiles;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
@@ -35,14 +34,17 @@ public class InputHandler implements InputProcessor, GestureDetector.GestureList
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         if (world.isReady()) {
-            Gdx.app.log("STATE", " TOUCH DOWN is ready if state READY");
+//            Gdx.app.log("STATE", " TOUCH DOWN is ready if state READY");
 
             world.start();
         }
 
         if (world.isGameOver()) {
-            Gdx.app.log("STATE", "TOUCH DOWN IS GAME OVER restarting method state GAME OVER");
-            world.restart();
+//            Gdx.app.log("STATE", "TOUCH DOWN IS GAME OVER restarting method state GAME OVER");
+            //TODO ADD A LITTLE TIME DELAY TO DISPLAY HIGH SCORE
+            if(world.scoreScreenDelay>20){
+                world.restart();
+            }
         }
         return true;
     }
@@ -85,21 +87,21 @@ public class InputHandler implements InputProcessor, GestureDetector.GestureList
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 
-        Gdx.app.log("FLING", "Fling performed, velocity:" + Float.toString(velocityX) +
-                "," + Float.toString(velocityY));
+//        Gdx.app.log("FLING", "Fling performed, velocity:" + Float.toString(velocityX) +
+//                "," + Float.toString(velocityY));
 
         if (velocityX > 0 && velocityY < 600 && -600 < velocityY) {
-            Gdx.app.log("FLING", "SWIPED TO PURPLE TILE");
+//            Gdx.app.log("FLING", "SWIPED TO PURPLE TILE");
             world.swipePurple();
         }
 
         else if (velocityX < 0 && velocityY < 600 && -600 < velocityY) {
-            Gdx.app.log("FLING", "SWIPED TO RED TILE");
+//            Gdx.app.log("FLING", "SWIPED TO RED TILE");
             world.swipeRed();
         }
 
         else if (velocityY < 0 && velocityX < 600 && -600 < velocityX) {
-            Gdx.app.log("FLING", "SWIPED TO BLUE TILE");
+//            Gdx.app.log("FLING", "SWIPED TO BLUE TILE");
             world.swipeBlue();
         }
 

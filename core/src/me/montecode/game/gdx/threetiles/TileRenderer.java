@@ -125,7 +125,7 @@ public class TileRenderer {
         AssetLoader.font.draw(batcher, String.valueOf(world.getScore()), 25 * world.widthScaleFactor, 50 * world.heightScaleFactor);
     }
 
-    AssetLoader.font.draw(batcher,"FPS:"+Gdx.graphics.getFramesPerSecond(),world.screenWidth-150*world.widthScaleFactor,world.screenHeight-50*world.heightScaleFactor);
+//    AssetLoader.font.draw(batcher,"FPS:"+Gdx.graphics.getFramesPerSecond(),world.screenWidth-150*world.widthScaleFactor,world.screenHeight-50*world.heightScaleFactor);
     if(world.isGameOver())
 
     {
